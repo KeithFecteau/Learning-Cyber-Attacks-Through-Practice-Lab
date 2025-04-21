@@ -249,7 +249,8 @@ The SQLmap scan successfully identified an SQL injection vulnerability within th
 7. Enumerating Database Tables with SQLmap
 
    After confirming the SQL injection vulnerability, I proceeded to enumerate the tables within the DVWA database using the following SQLmap command below
-   ![practicum22](https://github.com/user-attachments/assets/7d31d3d6-a3c4-47ed-9f50-163777b3cc8e)
+
+    ![practicum22](https://github.com/user-attachments/assets/7d31d3d6-a3c4-47ed-9f50-163777b3cc8e)
 
 **Explanation of the Command:**
 -D dvwa → Specifies the target database (dvwa).<br><br>
@@ -280,10 +281,95 @@ Since user credentials are often stored in a users table, I attempted to retriev
  1. Input Validation & Sanitization<br><br>
 -Reject inputs containing SQL-specific characters such as:
 ', --, ;, /*, */, and OR 1=1
--Use input whitelisting to allow only expected characters (e.g., numbers for IDs).
+<br><br>-Use input whitelisting to allow only expected characters (e.g., numbers for IDs).
 2. Implement Strong Password Policies<br><br> 
 -Require long, complex passwords (e.g., 12+ characters with uppercase, lowercase, numbers, and symbols).<br><br>
 -Enforce multi-factor authentication (MFA) for accounts.
+
+
+
+**Password attack tool- John the Ripper**
+
+John the Ripper is a powerful password-cracking tool used to recover plaintext passwords from hashed credentials. It supports various hashing algorithms and uses techniques such as dictionary attacks, brute-force attacks, and rule-based attacks to crack passwords efficiently.
+
+1.Creating a Test User and Hash File
+
+To begin my password-cracking experiment with John the Ripper, I created a test user and a password hash file named "pass.txt". This file contained the hashed password for the test account, allowing me to gain practical experience cracking password hashes.
+
+
+Here is the hash for the test user 
+![practicum26](https://github.com/user-attachments/assets/dd0431e0-24e9-456c-a6ce-b462a974552e)
+
+
+2. Cracking the Password Hash with John the Ripper
+
+ Using John the Ripper, I successfully cracked the hashed password stored in pass.txt. I executed the following command: john -format=crypt pass.txt
+
+
+ ![practicum27](https://github.com/user-attachments/assets/dcf7ae7c-8a45-43c2-adeb-7ba9d4227ff2)
+
+ Within seconds it cracked the password of 1234. This can be done with many password hashes it just may take longer for passwords with increasing complexity, this is why simple passwords should never be used.
+
+
+**Countermeasures/mitigations**
+
+-Use Strong Password Policies<br><br>
+-Implement MFA, multi-factor authentication
+
+
+**Reverse engineering tool-Ghidra**
+
+Ghidra is a powerful reverse engineering tool that provides detailed insights into binary executables. It can convert assembly instructions for easier analysis. It is beneficial for analyzing malicious binaries to understand their behavior and intent while in a controlled environment. Cybersecurity professionals should use this to reverse engineer malware to understand its functionality and detect indicators of compromise.
+
+
+1: Setting Up a New Project in Ghidra
+
+I began by launching Ghidra, then clicking file, new project, and nonshared project and named it test
+
+![practicum28](https://github.com/user-attachments/assets/28c24be2-eee8-436f-a2ec-855f31ecea06)
+
+2: Importing an Executable for Analysis
+
+After setting up my Ghidra project, the next step was to import a binary executable for analysis. This file could potentially contain malicious code or vulnerabilities that I aimed to investigate.
+
+
+First, while clicking on the test project I created I navigated to “file” then “import file”
+![practicum29](https://github.com/user-attachments/assets/20554a40-5547-49e0-9734-bffb701ae25a)
+
+3: Analyzing the Executable in Ghidra
+
+
+For this reverse engineering lab, I chose to inspect the /bin/ls executable—a standard Linux binary responsible for listing directory contents. This analysis allowed me to examine its assembly code, functions, and potential vulnerabilities.
+
+
+For the “Analysis Options” I went with the default configuration and then clicked “Analyze”
+![practicum30](https://github.com/user-attachments/assets/9803a986-bc6c-4070-8749-9204e1f848e2)
+
+
+4. Results
+
+   These were my results, The left panel, “Symbol tree” is a hierarchical list of symbols present in the binary, including imports, exports, functions, and labels. This can be a good starting point for malware analysis.
+
+
+   The center panel “Listing” Displays the raw assembly instructions of the selected function or section of the binary.
+
+   The right panel, “Decompiler,” converts the selected function's assembly code into high-level pseudocode, making it easier to understand and analyze.
+
+![practicum31](https://github.com/user-attachments/assets/ddb90868-9dcf-47ab-ad32-ca9ca542b699)
+
+**Why This Matters in Cybersecurity:**<br><br> 
+-The Symbol Tree helps locate key functions in malware analysis.<br><br>
+-The Listing Panel reveals low-level execution behavior.<br><br>
+-The Decompiler makes analyzing the binary faster and more accessible.
+
+
+
+
+
+
+
+
+
 
 
 
