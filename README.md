@@ -364,6 +364,86 @@ For the “Analysis Options” I went with the default configuration and then cl
 
 
 
+**Exploitation tool- Social Engineering Toolkit**
+
+The social engineering toolkit is a widely used, open-source penetration testing tool in Kali Linux. It focuses on automating and controlling social engineering attacks to breach security systems. Some key features of this tool include cloning websites, creating spear-fishing emails, and wireless access point attacks. It is a valuable resource for pen testing and security training.
+
+
+My goal for this part of the project was to clone a legitimate website and harvest user credentials to understand an attacker's process to gain access to a system.
+
+
+1: Launching the Social Engineering Toolkit and Configuring the Attack 
+
+I began by opening the social engineering toolkit on my Kali Linux machine and typing 1 to select “1 Social engineering attacks”
+![practicum32](https://github.com/user-attachments/assets/3cdf2aaa-5a6a-44ac-9249-c09d0846471f)
+
+
+After, I typed in 2 to select ‘ Website attack vectors”
+
+![practicum33](https://github.com/user-attachments/assets/4bbf47db-1162-4665-8c94-c53a89efd9f6)
+
+Then, 3 for “credential harvester attack method”
+
+![practicum34](https://github.com/user-attachments/assets/5471405b-f5a2-46d8-b79d-eb87936e899b)
+
+Finally, option 2 for “site cloner”
+
+![practicum35](https://github.com/user-attachments/assets/605a344a-c26f-4a73-a576-bf527ca4411a)
+
+
+2: Entering the Local Machine’s IP Address
+
+Then the Social Engineering Toolkit prompted me to enter the IP address of the host (local machine). This is necessary because the tool needs to know where to redirect captured credentials when a victim interacts with the cloned website.
+
+For the next step, the tool asks for the ip address of the host/local machine, so I entered that into the tool as indicated below
+![practicum36](https://github.com/user-attachments/assets/5346b82e-6933-4f37-979e-e747b45383d1)
+
+
+3.Cloning the Target Website
+
+After entering my local machine's IP address, the Social Engineering Toolkit prompted me to specify the website URL to clone. Since my goal was to simulate a phishing attack, I selected the DVWA (Damn Vulnerable Web Application) login page as my target.
+
+![practicum37](https://github.com/user-attachments/assets/c495d36f-be6d-4ed1-a581-479e2f90a219)
+
+
+Code input for the toolkit
+
+![practicum38](https://github.com/user-attachments/assets/dd5086d5-0fd1-4aa7-9e9f-dcdfcf8e7d2b)
+
+
+4: Capturing Keystrokes and Harvesting Credentials
+
+With the DVWA login page successfully cloned, the tool was now actively listening for user input. Any credentials entered into the fake login form would be sent to my terminal in real-time.In a real scenario, attackers could send the cloned websites to clients to steal their personal information.
+
+I entered fake credentials to see if the tool would grab them.
+![practicum39](https://github.com/user-attachments/assets/06a8c5ab-a574-4111-b0c2-f1b09d773eeb)
+
+
+Here is what the tool displayed
+![practicum40](https://github.com/user-attachments/assets/694529fc-369f-40dc-b862-64b6ab2b73ff)
+
+
+**Countermeasures/mitigations**
+
+1. User Awareness & Training<br><br>
+-Educate users on phishing tactics, such as fake login pages, urgent messages, and suspicious email requests.<br><br>
+-Encourage skepticism—users should be cautious of unexpected login prompts, especially those asking for credentials.<br><br>
+
+2. URL Verification & Link Awareness<br><br>
+-Teach users to verify URLs before entering credentials:<br><br>
+-Check for misspellings or slight variations,<br><br>
+-Hover over links before clicking to see the actual destination.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
