@@ -436,6 +436,103 @@ Here is what the tool displayed
 
 
 
+**Sniffing and spoofing tool-Wireshark**
+
+Wireshark is a powerful tool for capturing and analyzing network traffic It provides a detailed view of all packets traveling through a network interface, including source and destination IP addresses and the protocols they use. Cyber professionals have many use cases for this tool, such as analyzing network activity for suspicious traffic or anomalies and monitoring the communication of a target system during penetration tests.
+
+
+1: Launching Wireshark and Starting a Capture
+
+To begin analyzing network traffic, I launched Wireshark on my Kali Linux machine and I began by selecting the interface “eth0’ and the blue shark fin in the top left corner to begin capturing network traffic
+![practicum41](https://github.com/user-attachments/assets/1457e337-aff0-4121-9b9b-cb0910bb91df)
+
+
+2: Generating Network Traffic by Logging into DVWA
+
+While Wireshark was actively capturing traffic, I navigated to the DVWA (Damn Vulnerable Web Application) hosted on the Metasploitable 2 machine and attempted to log in using test credentials.
+![practicum42](https://github.com/user-attachments/assets/fb0746ae-6c20-4ed8-9d6d-821271bc296f)
+
+
+ 3: Filtering and Identifying the POST Request in Wireshark
+
+ To analyze the login traffic and look for exposed credentials, I used Wireshark’s filtering capabilities to isolate relevant packets. I first used the HTTP filter to clear up the packets and found the POST packet, When a user submits a login form, the browser sends the entered credentials (username and password) to the server in an HTTP POST request. If the connection is not encrypted for example, HTTP instead of HTTPS this data is sent as plaintext and can be intercepted by tools like Wireshark
+
+
+ ![practicum43](https://github.com/user-attachments/assets/207188dd-2d16-434d-bf39-f48eb15e16f8)
+
+
+ **Countermeasures/mitigations**<br><br>
+-Use HTTPS instead of HTTP on all pages that transmit or receive user data.<br><br>
+-Warn users to avoid entering credentials on insecure sites
+
+
+
+
+**Post exploitation tool- Weavly** 
+
+   Weevely is a stealthy PHP web shell used in post-exploitation to maintain access to a compromised web server. Once deployed, it enables an attacker (or ethical hacker) to execute system commands, browse the file system, upload/download files, and escalate privileges—all from a remote terminal. 
+
+
+ My objective in this section was to exploit a vulnerable file upload function on the DVWA web server, upload a Weevely payload, and establish remote control over the server for post-exploitation tasks.
+
+
+
+ 1: Generating a PHP Web Shell with Weevely
+
+To begin the post-exploitation phase, I launched Weevely on my Kali Linux machine and generated a malicious PHP payload using the following commands below:
+![practicum44](https://github.com/user-attachments/assets/ee266f90-1e86-49e9-aa87-4163d607d864)
+
+2: Uploading the PHP Shell to DVWA
+
+With the Weevely payload (shell.php) generated, I navigated to the file upload section of the DVWA (Damn Vulnerable Web Application) to exploit its insecure file-handling feature
+![practicum45](https://github.com/user-attachments/assets/88a3b18b-3328-4feb-a62a-0a5b788ce483)
+
+
+3: Connecting to the Uploaded Shell with Weevely
+
+After successfully uploading the shell.php file to DVWA, I noted the directory path where the file was stored—displayed in red text on the upload confirmation screen, this will be entered into Weevely to establish the connection
+
+![practicum46](https://github.com/user-attachments/assets/aca17d5f-a60e-4784-a653-9952c300ea42)
+
+
+Once connected to the uploaded Weevely shell, I established a persistent remote session with the compromised DVWA web server.
+
+![practicum47](https://github.com/user-attachments/assets/b1715cd6-9f6a-418f-8773-58f8cde2edf4)
+
+This tool enables an attacker to access sensitive server data, such as the directory structure and configuration files. It also provides detailed information about the operating system and installed software, which can be used to target outdated software or misconfigurations for further exploitation.
+
+
+**Countermeasures/mitigations**<br><br>
+
+1. Secure File Upload Functionality<br><br>
+-Restrict accepted file types to safe formats like .jpg, .png, or .pdf.<br><br>
+-Rename uploaded files and store them outside of the web root to prevent direct execution.<br><br>
+
+
+2. Deploy a Web Application Firewall (WAF)<br><br>
+-Use a WAF (e.g., AWS WAF, Cloudflare) to monitor and block malicious file uploads, command injection attempts, and known web shell signatures.<br><br>
+-Configure the WAF to detect unusual traffic behavior and alert security teams in real time.<br><br>
+
+
+3. Disable Execution in Upload Directories<br><br>
+-Configure the web server to prevent execution of scripts (e.g., .php, .exe, .jsp) in upload directories.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
