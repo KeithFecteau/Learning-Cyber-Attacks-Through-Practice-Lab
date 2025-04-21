@@ -133,6 +133,176 @@ These findings highlight significant security risks that should be addressed to 
 <br><br>
 Implementing these measures helps protect the web server from unauthorized access and reduces the risk of exploits targeting outdated software.
 
+<br><br>
+
+**Web Application Analysis tool-Cadaver**
+
+1. Navigating to the Target Web Server<br><br> 
+To begin web application analysis, I accessed the Metasploitable 2 web interface using a web browser in Kali Linux. I entered the following URL in the browser:  http://192.168.9.238
+<br><br>    
+
+Here is what the webpage provided me
+
+![practicum7](https://github.com/user-attachments/assets/c65ceee9-311b-494f-85f9-65e05dc38952)
+
+Then I clicked on the “WebDAV” link that brought me to this screen
+![practicum8](https://github.com/user-attachments/assets/ca518232-163d-4a17-a3c4-2d59c6bd7468)
+
+After identifying the WebDAV service, I copied the following directory URL for later use with Cadaver to test for vulnerabilities: http://192.168.9.238/dav/
+<br><br>
+2. Exploiting WebDAV with Cadaver<br><br> 
+After launching Cadaver, I initiated a connection to the WebDAV directory using the following command: open  http://192.168.9.238/dav/
+
+![practicum9](https://github.com/user-attachments/assets/aae7ec6c-8a74-4ccc-82f1-88632e169a41)
+
+Through my research, I discovered that the put command in WebDAV allows file uploads to the server. This functionality can be exploited to inject files or arbitrary code, potentially leading to remote code execution if the server allows unauthorized file uploads.
+
+<br><br>
+I proceeded by creating a text file on my Kali Linux machine named “DefintelyNotAvirus” to inject into the web browser <br><br>
+
+In a real-world attack scenario, an attacker could replace this file with a malicious payload (e.g., a web shell or exploit code) to achieve remote code execution or escalate privileges on the target system. However, for this project, I left the file with a simple, non-malicious message to test whether the WebDAV service accepted uploads.<br><br>
+
+ 3. Creating a Test File for WebDAV Injection <br><br>
+To test the file upload functionality of the WebDAV server, I created a simple text file on my Kali Linux machine named "DefinitelyNotAVirus.txt"
+![practicum11](https://github.com/user-attachments/assets/5470d643-7a99-4e31-9809-16515b3c9767)
+
+
+4. Uploading the Test File Using Cadaver
+
+  With the test file created, I returned to Cadaver and attempted to upload it to the WebDAV server using the PUT command. The command used was used:
+put /home/user/Desktop/DefinitelyNotAVirus.txt
+
+![practicum12](https://github.com/user-attachments/assets/ffa4224b-17f0-4cca-be99-a48d3c3fd9e2)
+
+
+5. Verifying the File Upload on the WebDAV Server
+
+After refreshing the WebDAV directory page in my web browser, I confirmed that the file now appeared on the server.
+
+![practicum13](https://github.com/user-attachments/assets/d72e6512-d36b-42fc-97c0-d64d54103895)
+
+In a real-world attack scenario, an attacker could upload and execute a malicious payload, such as a web shell, to gain remote access to the system.
+
+**Countermeasures/Mitigations**
+
+-If WebDAV functionality is not required, disable it entirely to eliminate the attack vector.<br><br>
+-Configure the WebDAV server to allow write access only to authenticated and authorized users
+
+
+
+**Database assessment tool- SQLmap**
+<br><br>
+
+SQLmap is an automated tool designed to detect and exploit SQL injection vulnerabilities in web applications. The goal of this assessment was to identify and exploit SQL injection weaknesses within DVWA (Damn Vulnerable Web Application), which is hosted on Metasploitable 2. This allowed me to test how attackers could extract sensitive database information from vulnerable applications.
+<br><br>
+
+1. Launching SQLmap and Navigating to DVWA
+
+I began by opening SQLmap on my Kali Linux machine and navigating to the DVWA (Damn Vulnerable Web Application) hosted on the Metasploitable 2 server. I accessed the web application by clicking on the circled link.
+![practicum14](https://github.com/user-attachments/assets/6cad4ca5-430e-440f-8d74-ed8fe4b9b391)
+
+2. Targeting the SQL Injection Page in DVWA
+
+    To utilize SQLmap, I navigated to the SQL Injection page within DVWA on the Metasploitable 2 server. This page is specifically designed to be vulnerable, making it an ideal target for testing SQL injection techniques.
+
+   ![practicum15](https://github.com/user-attachments/assets/2b84c285-6df6-49ad-9718-e64017e8824e)
+
+3. Executing a Basic SQL Injection Attack
+
+   To manually test for SQL injection vulnerabilities, I entered the following basic SQL injection payload into the input field on the SQL Injection page in DVWA: 'or '1'='1
+
+   ![practicum16](https://github.com/user-attachments/assets/886ccc66-4392-4b74-bbf7-e14678615593)
+
+   Here are my results
+
+   ![practicum18](https://github.com/user-attachments/assets/832c79c4-5723-4832-a620-025f04f6b538)
+
+
+4. Extracting the Session Cookie for SQLmap
+
+   Next, I left-clicked the page and inspected the element to grab the session cookie under the “network” tab for sqlmap to use for the next attack 
+
+![practicum19](https://github.com/user-attachments/assets/30edb3d5-21ca-4546-80f8-2d1ddc62a116)
+
+5. Running SQLmap to Scan for SQL Injection Vulnerabilities
+
+   With the session cookie extracted, I executed SQLmap to scan the SQL Injection page for vulnerabilities. The command included both the target URL and the session cookie for authentication. The command I used was: <br><br>
+
+   "http://192.168.9.238/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit" -p id -H "Cookie: security=low; PHPSESSID=07ba58be37c341b647cda687f917280”
+
+
+![practicum20](https://github.com/user-attachments/assets/10b7bb62-a5e3-470f-aed9-670788292baf)
+
+**Explanation of the Command:**
+"http://192.168.9.238/dvwa/vulnerabilities/sqli/?id=1&Submit=Submit"  Specifies the target URL where the SQL injection vulnerability is being tested.<br><br>
+-p id Instructs SQLmap to focus on the "id" parameter, where the injection is attempted.<br><br>
+-H "Cookie: security=low; PHPSESSID=07ba58be37c341b647cda687f917280" Uses the previously copied session cookie to authenticate SQLmap with DVWA.
+
+
+
+6. SQLmap Scan Results – Confirmed Vulnerability
+
+The SQLmap scan successfully identified an SQL injection vulnerability within the "id" parameter of the SQL Injection page in DVWA. This confirmed that the web application was improperly handling user input, making it susceptible to database exploitation.
+
+![practicum21](https://github.com/user-attachments/assets/cb5a8436-1097-4bf1-b3ae-adad4879b5c4)
+
+7. Enumerating Database Tables with SQLmap
+
+   After confirming the SQL injection vulnerability, I proceeded to enumerate the tables within the DVWA database using the following SQLmap command below
+   ![practicum22](https://github.com/user-attachments/assets/7d31d3d6-a3c4-47ed-9f50-163777b3cc8e)
+
+**Explanation of the Command:**
+-D dvwa → Specifies the target database (dvwa).<br><br>
+--tables → Retrieves and lists all available tables within the database.
+
+
+Here are the command results, two tables within the database were found
+![practicum23](https://github.com/user-attachments/assets/8e9069a4-874b-4b10-a0ea-09b9b86fab0a)
+
+8. Extracting User Credentials from the Database
+
+Since user credentials are often stored in a users table, I attempted to retrieve the contents of this table, specifically targeting usernames and password hashes. Using the following command below
+
+![practicum24](https://github.com/user-attachments/assets/cfd122bf-21f9-4438-87c4-c9a8594d3d22)
+
+**Explanation of the Command:**
+-D dvwa  Specifies the target database (dvwa).<br><br>
+-T users  Targets the users table for extraction.<br><br>
+--dump  Dumps all stored data from the users table, including usernames and password hashes.
+
+9. Extracted and Cracked User Credentials
+
+    After executing the SQLmap command, I successfully retrieved usernames and password hashes from the users table in the DVWA database. SQLmap also automatically cracked some hashes, revealing plaintext passwords. Below are my results <br><br> 
+
+   ![practicum25](https://github.com/user-attachments/assets/830e862e-1220-495a-94b4-15fd321294c7)
+
+   **Countermeasures/Mitigations**
+ 1. Input Validation & Sanitization<br><br>
+-Reject inputs containing SQL-specific characters such as:
+', --, ;, /*, */, and OR 1=1
+-Use input whitelisting to allow only expected characters (e.g., numbers for IDs).
+2. Implement Strong Password Policies<br><br> 
+-Require long, complex passwords (e.g., 12+ characters with uppercase, lowercase, numbers, and symbols).<br><br>
+-Enforce multi-factor authentication (MFA) for accounts.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
