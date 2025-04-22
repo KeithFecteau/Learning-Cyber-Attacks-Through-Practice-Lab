@@ -125,7 +125,7 @@ These findings highlight significant security risks that should be addressed to 
 <br><br>
 -Remove or restrict access to sensitive files like /phpMyAdmin/ChangeLog and /phpMyAdmin/README to prevent exposure of version details and configurations.
 <br><br>
-**2.Enforce Regular Updates:**
+2.Enforce Regular Updates:
 -Update Apache, phpMyAdmin, and PHP to their latest secure versions to patch known vulnerabilities.
 <br><br>
 -Regularly monitor for security updates and apply patches to minimize the risk of exploitation.
@@ -188,8 +188,8 @@ In a real-world attack scenario, an attacker could upload and execute a maliciou
 -If WebDAV functionality is not required, disable it entirely to eliminate the attack vector.<br><br>
 -Configure the WebDAV server to allow write access only to authenticated and authorized users
 
-
-
+<br><br>
+<br><br>
 **Database assessment tool- SQLmap**
 <br><br>
 
@@ -286,7 +286,8 @@ Since user credentials are often stored in a users table, I attempted to retriev
 -Require long, complex passwords (e.g., 12+ characters with uppercase, lowercase, numbers, and symbols).<br><br>
 -Enforce multi-factor authentication (MFA) for accounts.
 
-
+<br><br>
+<br><br>
 
 **Password attack tool- John the Ripper**
 
@@ -316,7 +317,8 @@ Here is the hash for the test user
 -Use Strong Password Policies<br><br>
 -Implement MFA, multi-factor authentication
 
-
+<br><br>
+<br><br>
 **Reverse engineering tool-Ghidra**
 
 Ghidra is a powerful reverse engineering tool that provides detailed insights into binary executables. It can convert assembly instructions for easier analysis. It is beneficial for analyzing malicious binaries to understand their behavior and intent while in a controlled environment. Cybersecurity professionals should use this to reverse engineer malware to understand its functionality and detect indicators of compromise.
@@ -362,7 +364,8 @@ For the “Analysis Options” I went with the default configuration and then cl
 -The Listing Panel reveals low-level execution behavior.<br><br>
 -The Decompiler makes analyzing the binary faster and more accessible.
 
-
+<br><br>
+<br><br>
 
 **Exploitation tool- Social Engineering Toolkit**
 
@@ -435,7 +438,8 @@ Here is what the tool displayed
 -Hover over links before clicking to see the actual destination.
 
 
-
+<br><br>
+<br><br>
 **Sniffing and spoofing tool-Wireshark**
 
 Wireshark is a powerful tool for capturing and analyzing network traffic It provides a detailed view of all packets traveling through a network interface, including source and destination IP addresses and the protocols they use. Cyber professionals have many use cases for this tool, such as analyzing network activity for suspicious traffic or anomalies and monitoring the communication of a target system during penetration tests.
@@ -466,7 +470,8 @@ While Wireshark was actively capturing traffic, I navigated to the DVWA (Damn Vu
 -Warn users to avoid entering credentials on insecure sites
 
 
-
+<br><br>
+<br><br>
 
 **Post exploitation tool- Weavly** 
 
